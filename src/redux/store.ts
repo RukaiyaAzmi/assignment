@@ -9,12 +9,13 @@ import upgradeSlice from './slices/upgrade.slice'
 import verificationSlice from './slices/nid-verification.slice'
 import autoMergeLevel1 from 'redux-persist/lib/stateReconciler/autoMergeLevel1'
 import passwordSlice from './slices/password.slice'
+import productSlice from './slices/product.slice'
 
 const rootPersistConfig = {
   key: 'root',
   storage,
   stateReconciler: autoMergeLevel1,
-  whitelist: ['global', 'user'],
+  whitelist: ['global', 'user', 'product'],
 }
 
 const rootReducer = combineReducers({
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   ekycUtil: ekycUtilReducer,
   verification: verificationSlice,
   password: passwordSlice,
+  product: productSlice,
 })
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
