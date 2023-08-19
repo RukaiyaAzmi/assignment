@@ -6,7 +6,6 @@ import type { AppProps } from 'next/app'
 import { Provider } from 'react-redux'
 import { persistor, store } from '@redux/store'
 import { PersistGate } from 'redux-persist/integration/react'
-import Alert from '@components/common/Alert'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Head from 'next/head'
@@ -25,7 +24,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <>
-            <Alert />
             <Component {...pageProps} />
             <ToastContainer
               position="top-center"

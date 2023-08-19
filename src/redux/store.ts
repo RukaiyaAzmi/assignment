@@ -2,14 +2,11 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { persistReducer, FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistStore } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import globalReducer from '@redux/slices/global.slice'
-import userReducer from '@redux/slices/user.slice'
-import ekycReducer from './slices/ekyc.slice'
-import ekycUtilReducer from './slices/ekyc-utils.slice'
-import upgradeSlice from './slices/upgrade.slice'
-import verificationSlice from './slices/nid-verification.slice'
 import autoMergeLevel1 from 'redux-persist/lib/stateReconciler/autoMergeLevel1'
-import passwordSlice from './slices/password.slice'
 import productSlice from './slices/product.slice'
+import categorySlice from './slices/category.slice'
+import addToCartSlice from './slices/add-to-cart.slice'
+import cartSlice from './slices/cart.slice'
 
 const rootPersistConfig = {
   key: 'root',
@@ -20,13 +17,10 @@ const rootPersistConfig = {
 
 const rootReducer = combineReducers({
   global: globalReducer,
-  user: userReducer,
-  ekyc: ekycReducer,
-  upgrade: upgradeSlice,
-  ekycUtil: ekycUtilReducer,
-  verification: verificationSlice,
-  password: passwordSlice,
   product: productSlice,
+  category: categorySlice,
+  addToCart: addToCartSlice,
+  cart: cartSlice,
 })
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -8,14 +8,15 @@ export interface IActionState {
 export interface ProductState {
   products: [
     {
-      id: number
+      id: any
       title: string
       description: string
-      price: string
+      price: number
       brand: string
       category: string
       thumbnail: string
-      stock: string
+      stock: number
+      images: string[]
     },
   ]
 }
@@ -26,11 +27,12 @@ const initState: ProductState = {
       id: 0,
       title: '',
       description: '',
-      price: '',
+      price: 0,
       brand: '',
       category: '',
       thumbnail: '',
-      stock: '',
+      stock: 0,
+      images: [],
     },
   ],
 }
@@ -41,10 +43,7 @@ const productSlice = createSlice({
   reducers: {
     setProducts: (state, action) => {
       state.products = action.payload
-      //   const { name, value } = action.payload
-      //   state[name] = value
     },
-    // reset the store to Initial state
     resetUpgradeState: () => {
       return {
         ...initState,
