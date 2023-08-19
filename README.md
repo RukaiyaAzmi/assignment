@@ -1,1 +1,1 @@
-# ERA eKYC Client V3
+to run the project: yarn dev
