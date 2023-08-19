@@ -13,6 +13,7 @@ import { setCart } from '@redux/slices/cart.slice'
 
 export default function test() {
   const [count, setCount] = useState(0)
+  const [stock, setStock] = useState(0)
   const [showCartModal, setShowCartModal] = useState<boolean>(false)
   const products = useSelector((state: RootState) => state.product.products)
   const category = useSelector((state: RootState) => state.category)
@@ -31,11 +32,14 @@ export default function test() {
   }, [])
 
   const incrementCount = () => {
-    setCount(count + 1)
-    //dispatch(setCart(count))
+    if (count < stock) {
+      setCount(count + 1)
+    } else {
+      toast.error('Out of Stock')
+    }
   }
   const decrementCount = () => {
-    setCount(count - 1)
+    setCount(count != 0 ? count - 1 : 0)
   }
 
   const getProducts = async () => {
@@ -66,6 +70,7 @@ export default function test() {
         url: `https://dummyjson.com/products/${id}`,
       })
       console.log('data', res)
+      setStock(res.stock)
       let count = 1
 
       for (let i = 0; i < idOfCart.id.length; i++) {
@@ -138,7 +143,7 @@ export default function test() {
   }
   // const ab: any = []
   // ab.push(cart.idCount.at(cart.idCount.length - 1))
-  console.log('pro', cart)
+  console.log('pro', products)
   return (
     <div className="p-10">
       {/* <h1 className="flex justify-center text-2xl text-gray-900 font-bold pt-5">List of Products</h1> */}
@@ -160,29 +165,31 @@ export default function test() {
       </div>
 
       <div className="flex flex-row">
-        <div className=" w-1/4">
+        <div className=" w-1/4 pl-4 pr-8">
           <h1 className="flex justify-start text-2xl text-gray-900 font-bold py-5 px-3">Category</h1>
-          <div className="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-            <button
-              type="button"
-              onClick={() => getProducts()}
-              className="w-full px-4 py-2 font-medium text-left border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
-            >
-              All
-            </button>
+          <div className="  overflow-y-scroll h-96">
+            <div className="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+              <button
+                type="button"
+                onClick={() => getProducts()}
+                className="w-full pl-4 py-2 font-medium text-left border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
+              >
+                All
+              </button>
+            </div>
+            {category &&
+              category.map((category) => (
+                <div className=" w-48 text-sm font-medium text-gray-900 bg-white rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                  <button
+                    type="button"
+                    onClick={() => getProductByCategory(category)}
+                    className="w-full pl-4 py-2 font-medium text-left border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
+                  >
+                    {category}
+                  </button>
+                </div>
+              ))}
           </div>
-          {category &&
-            category.map((category) => (
-              <div className="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                <button
-                  type="button"
-                  onClick={() => getProductByCategory(category)}
-                  className="w-full px-4 py-2 font-medium text-left border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
-                >
-                  {category}
-                </button>
-              </div>
-            ))}
         </div>
         <div className="sm:grid-cols-1 grid md:grid-cols-4 gap-5 mt-15">
           {products &&
@@ -214,21 +221,6 @@ export default function test() {
             ))}
         </div>
       </div>
-      {/* <Modal
-        show={showCartModal}
-        size="2xl"
-        onClose={handleDetailsClose}
-        popup={true}
-        position="top-right"
-        dismissible={false}
-      >
-        <Modal.Header className="bg-slate-100">
-          <p className="ml-3 my-2">Product Details</p>
-        </Modal.Header>
-        <Modal.Body className=" bg-slate-100">
-          {products.length && <ProductsView productList={products[0]} />}
-        </Modal.Body>
-      </Modal> */}
       {showCartModal && (
         <div className="relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
